@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="styles.css">
+        <title>The Weathernator</title>
+    </head>
+
+    <body onresize="windowCheck()">
+        <div class="main-container">
+            <img src="img/launchIcon.png" alt="sun-cloud" id="launch-icon">
+            <div class="error-box d-none"></div>
+            <h1 id="title" class="d-none">Weathernator</h1>
+            <div class="container">
+                <div class="temp-search-box">
+                    <button type="button" id="temp-switch" class="d-none">&deg;F</button>
+                    <img src="img/searcher.png" alt="search-icon" id="search" class="d-none">  
+                </div>
+                
+                <header>
+                    <form action="submit" class="change-location">
+                        <label for="City" name="formPrompt">City search</label><br>
+                        <input type="text" name="city">
+                    </form>
+                </header>
+                
+                <div class="details"></div>
+                                              
+                <div id="forecast-div" class="d-none">
+                    <div id="forecast-buttons">
+                        <button class="forecast-btn d-none" id="hours12-btn">12-Hours</button>
+                        <div class="d-none" id="wide-forecast-title">Forecast</div>
+                        <button class="forecast-btn" id="forecast-toggle-btn">Show Forecasts</button>
+                        <button class="forecast-btn d-none" id="days5-btn">5-Days</button>
+                    </div>
+                    <div id="forecast-box" class="d-none">
+                        <div id="forecast-title"></div>
+                        <div class="days5-container d-none"></div>
+                        <div class="hours12-container d-none"></div>
+                    </div>
+                </div>
+            </div>
+            <div 
+                id="loading-box"
+                class="d-none" >
+                <img 
+                    src="img/loading.gif" 
+                    alt="loading"
+                >
+                <p>Loading ...</p>
+            </div>
+        </div>
+        <script src="scripts/dateFormatter.js"></script>
+        <script src="scripts/uiFunctions.js"></script>
+        <script src="scripts/forecast.js"></script>
+        <script src="scripts/app.js"></script>
+    </body>
+</html>
