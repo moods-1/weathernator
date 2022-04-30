@@ -5,11 +5,13 @@ const details = document.querySelector(".details");
 const currentContainer = document.querySelector(".container");
 const container12Hours = document.querySelector(".hours12-container");
 const container5Days = document.querySelector(".days5-container");
+const days5Btn = document.getElementById("days5-btn");
+const hours12Btn = document.getElementById("hours12-btn");
 const forecastBox = document.getElementById("forecast-box");
 const forecastButton = document.getElementById("forecast-buttons");
-const errorBox = document.querySelector('.error-box');
+const errorBox = document.querySelector(".error-box");
 const forecast = new Forecast();
-const fahToCel = fah => Math.round((fah - 32) * (5 / 9));
+const fahToCel = (fah) => Math.round((fah - 32) * (5 / 9));
 let data1 = [];
 let uiUpdateCounter = 0;
 
@@ -17,24 +19,24 @@ let uiUpdateCounter = 0;
 
 sample = () => {
   fetch("toronto.json")
-    .then(response => response.json())
-    .then(data => {
+    .then((response) => response.json())
+    .then((data) => {
       console.log(data);
-      updateUI(data)
+      updateUI(data);
     })
-    .catch(err => alert(err));
-}
+    .catch((err) => alert(err));
+};
 
 // UI updater
 
-const updateUI = data => {
-  document.getElementById('loading-box').classList.add('d-none');
+const updateUI = (data) => {
+  document.getElementById("loading-box").classList.add("d-none");
   const { cityDetails, weather, forecast5Days, day12Hours } = data;
   data1 = data;
-  if(uiUpdateCounter === 0){
-    document.getElementById('forecast-div').classList.remove('d-none');
-    document.getElementById('temp-switch').classList.remove('d-none');
-    document.getElementById('search').classList.remove('d-none');
+  if (uiUpdateCounter === 0) {
+    document.getElementById("forecast-div").classList.remove("d-none");
+    document.getElementById("temp-switch").classList.remove("d-none");
+    document.getElementById("search").classList.remove("d-none");
     uiUpdateCounter += 1;
   }
   checkDayNight(weather);
@@ -51,21 +53,24 @@ cityForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const city = cityForm.city.value.trim();
   cityForm.reset();
-  document.getElementById('launch-icon').classList.add('d-none');
-  document.getElementById('loading-box').classList.remove('d-none');
-  forecast.updateCity(city)
-    .then(data => updateUI(data))
-    .catch(err => {
+  document.getElementById("launch-icon").classList.add("d-none");
+  document.getElementById("loading-box").classList.remove("d-none");
+  forecast
+    .updateCity(city)
+    .then((data) =>{
+      updateUI(data);
+      localStorage.setItem("city", city);
+    }) 
+    .catch((err) => {
       errorBox.classList.remove("d-none");
       errorBox.innerHTML = `
       Sorry, no information for that location, or the daily limit of 50 API requests has been reached.`;
       setTimeout(() => {
         errorBox.classList.add("d-none");
-        document.getElementById('loading-box').classList.add('d-none');
+        document.getElementById("loading-box").classList.add("d-none");
       }, 5500);
       console.log(err);
     });
-  localStorage.setItem("city", city);
 });
 
 // Search box toggler
@@ -77,7 +82,7 @@ magnifier.addEventListener("click", (e) => {
 
 // Temperature scale changer
 
-tempSwitch.addEventListener("click", e => {
+tempSwitch.addEventListener("click", (e) => {
   tempSwitch.innerHTML = tempSwitch.innerHTML == "°C" ? `&deg;F` : `&deg;C`;
   let tempPreference = tempSwitch.innerHTML;
   localStorage.setItem("tempPreference", tempPreference);
@@ -87,53 +92,65 @@ tempSwitch.addEventListener("click", e => {
 
 // Forcast buttons div listener
 
-forecastButton.addEventListener('click', e => {
-  let title = document.getElementById('forecast-title');
-  if(e.target.innerText === "Show Forecasts"){
+forecastButton.addEventListener("click", (e) => {
+  let title = document.getElementById("forecast-title");
+  if (e.target.innerText === "Show Forecasts") {
     e.target.innerText = "Hide Forecasts";
-    forecastBox.classList.toggle('d-none');
-    document.getElementById('days5-btn').classList.toggle('d-none');
-    document.getElementById('hours12-btn').classList.toggle('d-none');
-  }
-  else if(e.target.innerText === "Hide Forecasts"){
+    forecastBox.classList.toggle("d-none");
+    days5Btn.classList.toggle("d-none");
+    hours12Btn.classList.toggle("d-none");
+  } else if (e.target.innerText === "Hide Forecasts") {
     e.target.innerText = "Show Forecasts";
-    forecastBox.classList.toggle('d-none');
-    document.getElementById('days5-btn').classList.toggle('d-none');
-    document.getElementById('hours12-btn').classList.toggle('d-none');
-  }
-  else if (e.target.innerText === "12-Hours") {
-    title.innerText = e.target.innerText;
+    forecastBox.classList.toggle("d-none");
+    days5Btn.classList.toggle("d-none");
+    hours12Btn.classList.toggle("d-none");
+  } else if (e.target.innerText === "12-Hours") {
+    title.innerText = "";
+    days5Btn.classList.remove("active");
+    hours12Btn.classList.add("active");
     container12Hours.classList.remove("d-none");
     container5Days.classList.add("d-none");
-  } 
-  else if(e.target.innerText === "5-Days"){
-    title.innerText = e.target.innerText;
+  } else if (e.target.innerText === "5-Days") {
+    title.innerText = "";
+    days5Btn.classList.add("active");
+    hours12Btn.classList.remove("active");
     container12Hours.classList.add("d-none");
     container5Days.classList.remove("d-none");
   }
-})
+});
 
-windowCheck =_=>{
-  if(window.innerWidth > 1023){
-    container12Hours.classList.contains('d-none') && 
-      container5Days.classList.remove('d-none');
+windowCheck = (_) => {
+  if (window.innerWidth > 1023) {
+    if (container12Hours.classList.contains("d-none")) {
+      container5Days.classList.remove("d-none");
+      days5Btn.classList.add("active");
     }
-}
+  }
+};
 
-window.innerWidth > 1023 && container5Days.classList.toggle('d-none');
+if (window.innerWidth > 1023) {
+  container5Days.classList.remove("d-none");
+  days5Btn.classList.add("active");
+}
 
 // Check for temperature scale preferecnce
 
 if (localStorage.getItem("tempPreference")) {
   let scale = localStorage.getItem("tempPreference");
   tempSwitch.innerHTML = scale;
-};
+}
 
 // Get data for the last location queried
 
-if (localStorage.getItem('city')) {
-  document.getElementById('launch-icon').classList.add('d-none');
-  forecast.updateCity(localStorage.getItem('city'))
-    .then(data => updateUI(data))
-    .catch(err => console.log(err));
+if (localStorage.getItem("city")) {
+  document.getElementById("launch-icon").classList.add("d-none");
+  forecast
+    .updateCity(localStorage.getItem("city"))
+    .then((data) => updateUI(data))
+    .catch((err) => console.log(err));
+}else{
+  forecast
+    .updateCity("Toronto")
+    .then((data) => updateUI(data))
+    .catch((err) => console.log(err));
 }

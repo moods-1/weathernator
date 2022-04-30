@@ -105,20 +105,58 @@ form label {
   font-weight: 600;
   padding: 0 5px;
   border-radius: 5px;
+  margin-top: 10px;
+}
+form div{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+
 }
 form input {
-  margin: 10px 0px 20px;
   padding: 5px;
-  width: 240px;
+  width: 220px;
   height: 35px;
-  font-size: 1.1em;
+  font-size: 16px;
   font-weight: 600;
   text-align: center;
-  border-style: none;
-  border-radius: 5px;
+  border: 1px solid #000;
+  border-radius: 7px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
   outline: none;
-  background: #000;
-  color: #fff;
+  background: #FFF;
+  color: #000;
+}
+
+form input:-ms-input-placeholder {
+  color: #777;
+}
+form input :-ms-input-placeholder {
+  color: #777;
+}
+form input::-webkit-input-placeholder {
+  color: #777;
+}
+form input ::-moz-placeholder {
+  color: #777;
+}
+form input::placeholder {
+  color: #777;
+}
+form button {
+  background: #FFF;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  margin-left: -3px;
+  height: 35px;
+  padding: 0px 10px;
+  cursor: pointer;
+  border: 1px solid #000;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 .container {
   position: relative;
@@ -220,6 +258,11 @@ form input {
 
 /* Forecasts */
 
+.active {
+  color: #fff !important;
+  background: #000 !important;
+}
+
 #forecast-title {
   font-size: 1.2em;
   letter-spacing: 2px;
@@ -293,9 +336,9 @@ form input {
     font-size: 5em;
   }
 }
-@media only screen and (min-width: 768px) {
+@media (max-width: 768px) {
   #title {
-    display: block;
+    font-size: 30px;
   }
 }
 @media only screen and (min-width: 1024px) {
@@ -340,5 +383,6 @@ form input {
   .forecast-btn {
     background: none;
     color: #000;
+    border: 1px solid #ddd;
   }
 }
