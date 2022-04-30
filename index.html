@@ -16,18 +16,15 @@
             <div class="container">
                 <div class="temp-search-box">
                     <button type="button" id="temp-switch" class="d-none">&deg;F</button>
-                    <img src="img/searcher.png" alt="search-icon" id="search" class="d-none">  
-                </div>
-                
+                    <img src="img/searcherBlack.png" alt="search-icon" id="search" class="d-none">  
+                </div>              
                 <header>
                     <form action="submit" class="change-location">
                         <label for="City" name="formPrompt">City search</label><br>
-                        <input type="text" name="city">
+                        <input type="text" name="city" placeholder="Search cities" autofocus>
                     </form>
                 </header>
-                
-                <div class="details"></div>
-                                              
+                <div class="details"></div>                             
                 <div id="forecast-div" class="d-none">
                     <div id="forecast-buttons">
                         <button class="forecast-btn d-none" id="hours12-btn">12-Hours</button>
